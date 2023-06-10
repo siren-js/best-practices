@@ -41,3 +41,28 @@ Type identifiers MAY be anything from a simple string to a fully-qualified class
 
 The values in an entity's `properties` object SHOULD be primitives (string, number, boolean, or null) or arrays of primitives. An object or object array property value is typically a sign that another entity is more appropriate and should be linked to or embedded in the context.
 
+## Follow Relation Type Standards
+
+[Links][link]' and [embedded links][embedded-link]' relation types SHOULD conform to [Section 3.3 of RFC 8288](https://www.rfc-editor.org/rfc/rfc8288#section-3.3), which obsoletes [the RFC mentioned in the spec](https://www.rfc-editor.org/rfc/rfc5988). Thus `rel` values SHOULD either be a name from [the IANA link relations registry](https://www.iana.org/assignments/link-relations/link-relations.xhtml), a name in [your API documentation](#appendix-a-document-your-api), or an absolute URI. When using the latter, the server SHOULD use a URI that points to documentation describing the link relation type.
+
+```json
+{
+  "links": [
+    {
+      "rel": ["self"],
+      "href": "https://api.example.com/orders/69"
+    },
+    {
+      "rel": ["https://schema.org/customer"],
+      "href": "https://api.example.com/people/42"
+    }
+  ],
+  "entities": [
+    {
+      "rel": ["https://api.example.com/about#order-items"],
+      "href": "https://api.example.com/orders/69/items"
+    }
+  ]
+}
+```
+
