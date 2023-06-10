@@ -66,3 +66,15 @@ The values in an entity's `properties` object SHOULD be primitives (string, numb
 }
 ```
 
+## Provide Type Hint to Entity Links
+
+When a [link][link] or [embedded link][embedded-link] reference another Siren entity, the `class` property SHOULD match the target entity's `class` property.
+
+```json
+{
+  "rel": ["author"],
+  "href": "https://api.example.com/people/42",
+  "class": ["Person"]
+}
+```
+
