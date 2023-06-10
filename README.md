@@ -2,6 +2,19 @@
 
 This document outlines best practices for Siren API servers and clients. It does not intent to alter or usurp [the original specification](https://github.com/kevinswiber/siren).
 
+## Table of Contents <!-- omit in toc -->
+
+- [Notational Conventions](#notational-conventions)
+- [Specify Entity's Type](#specify-entitys-type)
+- [Prefer Primitive Properties](#prefer-primitive-properties)
+- [Follow Relation Type Standards](#follow-relation-type-standards)
+- [Provide Type Hint to Entity Links](#provide-type-hint-to-entity-links)
+- [Distinguish Links to Non-Siren Resources](#distinguish-links-to-non-siren-resources)
+- [Include `self` Links](#include-self-links)
+- [Link to API Documentation](#link-to-api-documentation)
+- [Resolve Relative URIs](#resolve-relative-uris)
+- [Appendix A: API Documentation](#appendix-a-api-documentation)
+
 ## Notational Conventions
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [[RFC2119](https://datatracker.ietf.org/doc/html/rfc2119)].
