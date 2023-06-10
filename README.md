@@ -176,3 +176,13 @@ Similarly, had the `OrderItem` entity's `self` link been missing, we would once 
 
 Finally, if no `self` links had been present, the URI used to retrieve the entity would be the base URI since we have exhausted the entity graph.
 
+## Appendix A: API Documentation
+
+At minimum, Siren API documentation SHOULD describe the following:
+
+- `class` values
+- Names of `properties`
+- `name`s of `actions` and `fields`
+- Custom `rel` values
+
+The exact format of Siren API documentation is beyond the scope of this document. Consider using a format designed for documenting APIs like [ALPS](http://alps.io/) or [XMDP](https://gmpg.org/xmdp/).
