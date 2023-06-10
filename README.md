@@ -103,3 +103,15 @@ The server SHOULD include a `self` [link][link] for every entity it serves.
 }
 ```
 
+## Link to API Documentation
+
+The server SHOULD include a `profile` link [[RFC6906](https://www.rfc-editor.org/rfc/rfc6906.html)] for every entity it serves. The [link][link] SHOULD point to relevant [documentation describing the semantics of the resource](#appendix-a-document-your-api).
+
+```json
+{
+  "rel": ["profile"],
+  "href": "https://api.example.com/about",
+  "type": "application/xhtml+xml"
+}
+```
+
