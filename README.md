@@ -37,3 +37,7 @@ Type identifiers MAY be anything from a simple string to a fully-qualified class
 }
 ```
 
+## Prefer Primitive Properties
+
+The values in an entity's `properties` object SHOULD be primitives (string, number, boolean, or null) or arrays of primitives. An object or object array property value is typically a sign that another entity is more appropriate and should be linked to or embedded in the context.
+
