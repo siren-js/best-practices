@@ -78,3 +78,17 @@ When a [link][link] or [embedded link][embedded-link] reference another Siren en
 }
 ```
 
+## Distinguish Links to Non-Siren Resources
+
+When a [link][link] points to a non-Siren resource, the server SHOULD specify the target's default media type in the `type` property.
+
+```json
+{
+  "rel": ["icon"],
+  "href": "https://api.example.com/images/icon",
+  "type": "image/png"
+}
+```
+
+> Note that `type` is only a hint; for example, it does not override the `Content-Type` header field of a HTTP response obtained by actually following the link. [[RFC 8288, Section 3.4.1](https://www.rfc-editor.org/rfc/rfc8288#section-3.4.1)]
+
