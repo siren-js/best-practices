@@ -92,3 +92,14 @@ When a [link][link] points to a non-Siren resource, the server SHOULD specify th
 
 > Note that `type` is only a hint; for example, it does not override the `Content-Type` header field of a HTTP response obtained by actually following the link. [[RFC 8288, Section 3.4.1](https://www.rfc-editor.org/rfc/rfc8288#section-3.4.1)]
 
+## Include `self` Links
+
+The server SHOULD include a `self` [link][link] for every entity it serves.
+
+```json
+{
+  "rel": ["self"],
+  "href": "https://api.example.com/orders/21"
+}
+```
+
