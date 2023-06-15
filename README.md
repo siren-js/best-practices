@@ -1,10 +1,9 @@
 # Siren Best Practices
 
-This document outlines best practices for Siren API servers and clients. It does not intent to alter or usurp [the original specification](https://github.com/kevinswiber/siren).
+This document outlines best practices for Siren API servers and clients. It does not intend to alter or usurp [the original specification](https://github.com/kevinswiber/siren).
 
 ## Table of Contents <!-- omit in toc -->
 
-- [Notational Conventions](#notational-conventions)
 - [Specify Entity's Type](#specify-entitys-type)
 - [Prefer Primitive Properties](#prefer-primitive-properties)
 - [Follow Relation Type Standards](#follow-relation-type-standards)
@@ -15,18 +14,15 @@ This document outlines best practices for Siren API servers and clients. It does
 - [Resolve Relative URIs](#resolve-relative-uris)
 - [Appendix A: API Documentation](#appendix-a-api-documentation)
 
-## Notational Conventions
-
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [[RFC2119](https://datatracker.ietf.org/doc/html/rfc2119)].
-
-[link]: https://github.com/kevinswiber/siren#links-1
 [embedded-link]: https://github.com/kevinswiber/siren#embedded-link
+[link]: https://github.com/kevinswiber/siren#links-1
+[sub-entity]: https://github.com/kevinswiber/siren#sub-entities
 
 ## Specify Entity's Type
 
-The server SHOULD include one or more type identifiers in every entity's `class` array. A type identifier SHOULD indicate which set of `properties`, action `name`s, and link and sub-entity relation types might be present in the entity.
+As the server, include one or more type identifiers in the entity `class` array. A type identifier indicates which set of `properties`, action `name`s, and [link][link] and [sub-entity][sub-entity] relation types (`rel`) might be present in the entity.
 
-Type identifiers MAY be anything from a simple string to a fully-qualified class name (e.g., `order`, `com.example.Order`). The server SHOULD be consistent in its type identifier naming conventions. The server SHOULD [document type identifiers](#appendix-a-document-your-api).
+Type identifiers can be anything from a simple string to a fully-qualified class name (e.g., `order`, `com.example.Order`). Be consistent in type identifier naming conventions, and [document them](#appendix-a-document-your-api).
 
 ```json
 {
@@ -52,28 +48,28 @@ Type identifiers MAY be anything from a simple string to a fully-qualified class
 
 ## Prefer Primitive Properties
 
-The values in an entity's `properties` object SHOULD be primitives (string, number, boolean, or null) or arrays of primitives. An object or object array property value is typically a sign that another entity is more appropriate and should be linked to or embedded in the context.
+Prefer primitives (string, number, boolean, or null) or arrays of primitives as the values of an entity's `properties` object. An object or object array property value is typically a sign that another entity/resource is more appropriate and should be hyperlinked in the context entity.
 
 ## Follow Relation Type Standards
 
-[Links][link]' and [embedded links][embedded-link]' relation types SHOULD conform to [Section 3.3 of RFC 8288](https://www.rfc-editor.org/rfc/rfc8288#section-3.3), which obsoletes [the RFC mentioned in the spec](https://www.rfc-editor.org/rfc/rfc5988). Thus `rel` values SHOULD either be a name from [the IANA link relations registry](https://www.iana.org/assignments/link-relations/link-relations.xhtml), a name in [your API documentation](#appendix-a-document-your-api), or an absolute URI. When using the latter, the server SHOULD use a URI that points to documentation describing the link relation type.
+[Links][link]' and [embedded links][embedded-link]' relation types conform to [Section 3.3 of RFC 8288](https://www.rfc-editor.org/rfc/rfc8288#section-3.3), which obsoletes [the RFC mentioned in the spec](https://www.rfc-editor.org/rfc/rfc5988). Thus `rel` values are either a name from [the IANA link relations registry](https://www.iana.org/assignments/link-relations/link-relations.xhtml), a name in [your API documentation](#appendix-a-document-your-api), or an absolute URI. When using the latter, use a URL that points to documentation describing the link relation type.
 
 ```json
 {
   "links": [
     {
       "rel": ["self"],
-      "href": "https://api.example.com/orders/69"
+      "href": "/orders/69"
     },
     {
       "rel": ["https://schema.org/customer"],
-      "href": "https://api.example.com/people/42"
+      "href": "/people/42"
     }
   ],
   "entities": [
     {
       "rel": ["https://api.example.com/about#order-items"],
-      "href": "https://api.example.com/orders/69/items"
+      "href": "/orders/69/items"
     }
   ]
 }
@@ -81,19 +77,36 @@ The values in an entity's `properties` object SHOULD be primitives (string, numb
 
 ## Provide Type Hint to Entity Links
 
-When a [link][link] or [embedded link][embedded-link] reference another Siren entity, the `class` property SHOULD match the target entity's `class` property.
+When a [link][link] or [embedded link][embedded-link] reference another Siren entity, match the link's `class` property with the target entity's `class` property.
 
 ```json
 {
   "rel": ["author"],
-  "href": "https://api.example.com/people/42",
+  "href": "/people/42",
   "class": ["Person"]
+}
+```
+
+```http
+GET /people/42 HTTP/1.1
+Host: api.example.com
+```
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/vnd.siren+json
+
+{
+  "class": ["Person"],
+  "links": [
+    { "rel": ["self"], "href": "/people/42" }
+  ]
 }
 ```
 
 ## Distinguish Links to Non-Siren Resources
 
-When a [link][link] points to a non-Siren resource, the server SHOULD specify the target's default media type in the `type` property.
+When a [link][link] points to a non-Siren resource, specify the target's default media type in the `type` property.
 
 ```json
 {
@@ -107,30 +120,30 @@ When a [link][link] points to a non-Siren resource, the server SHOULD specify th
 
 ## Include `self` Links
 
-The server SHOULD include a `self` [link][link] for every entity it serves.
+Include a `self` [link][link] for every entity. An entity represents a resource, which is identified by a URL, and therefore has a `self` link.
 
 ```json
 {
   "rel": ["self"],
-  "href": "https://api.example.com/orders/21"
+  "href": "/orders/21"
 }
 ```
 
 ## Link to API Documentation
 
-The server SHOULD include a `profile` link [[RFC6906](https://www.rfc-editor.org/rfc/rfc6906.html)] for every entity it serves. The [link][link] SHOULD point to relevant [documentation describing the semantics of the resource](#appendix-a-document-your-api).
+Include a `profile` link [[RFC6906](https://www.rfc-editor.org/rfc/rfc6906.html)] for every entity. The [link][link] points to relevant [documentation describing the semantics of the resource](#appendix-a-document-your-api).
 
 ```json
 {
   "rel": ["profile"],
-  "href": "https://api.example.com/about",
+  "href": "https://api.example.com/about#Person",
   "type": "application/xhtml+xml"
 }
 ```
 
 ## Resolve Relative URIs
 
-When a [link][link]'s or [embedded link][embedded-link]'s `href` is a [relative URI](https://www.rfc-editor.org/rfc/rfc3986#section-4.2), clients SHOULD [resolve the reference](https://www.rfc-editor.org/rfc/rfc3986#section-5) by [establishing a base URI](https://www.rfc-editor.org/rfc/rfc3986#section-5.1) as follows:
+When a [link][link]'s or [embedded link][embedded-link]'s `href` is a [relative URI](https://www.rfc-editor.org/rfc/rfc3986#section-4.2), [resolve the reference](https://www.rfc-editor.org/rfc/rfc3986#section-5) by [establishing a base URI](https://www.rfc-editor.org/rfc/rfc3986#section-5.1) as follows:
 
 1. [Base URI Embedded in Content](https://www.rfc-editor.org/rfc/rfc3986#section-5.1.1). This is the context entity's `self` link's `href`.
 2. [Base URI from the Encapsulating Entity](https://www.rfc-editor.org/rfc/rfc3986#section-5.1.2). If the context entity has no `self` link with an absolute URI and it is a [sub-entity](https://github.com/kevinswiber/siren#sub-entities), then traverse the entity graph up from the context, searching for a `self` link with an absolute URI at each level, and stopping when one is found or the graph is exhausted. The `href` of that link, if found, is the base URI.
@@ -191,7 +204,7 @@ Finally, if no `self` links had been present, the URI used to retrieve the entit
 
 ## Appendix A: API Documentation
 
-At minimum, Siren API documentation SHOULD describe the following:
+At minimum, Siren API documentation describes the following:
 
 - `class` values
 - Names of `properties`
