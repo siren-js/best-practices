@@ -1,5 +1,3 @@
-# Siren Best Practices
-
 This document outlines best practices for Siren API servers and clients. It does not intend to alter or usurp [the original specification](https://github.com/kevinswiber/siren).
 
 ## Table of Contents <!-- omit in toc -->
