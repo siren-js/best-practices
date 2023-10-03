@@ -20,7 +20,7 @@ This document outlines best practices for Siren API servers and clients. It does
 
 As the server, include one or more type identifiers in the entity `class` array. A type identifier indicates which set of `properties`, action `name`s, and [link][link] and [sub-entity][sub-entity] relation types (`rel`) might be present in the entity.
 
-Type identifiers can be anything from a simple string to a fully-qualified class name (e.g., `order`, `com.example.Order`). Be consistent in type identifier naming conventions, and [document them](#appendix-a-document-your-api).
+Type identifiers can be anything from a simple string to a fully-qualified class name (e.g., `order`, `com.example.Order`). Be consistent in type identifier naming conventions, and [document them](#appendix-a-api-documentation).
 
 ```json
 {
@@ -50,7 +50,7 @@ Prefer primitives (string, number, boolean, or null) or arrays of primitives as 
 
 ## Follow Relation Type Standards
 
-[Links][link]' and [embedded links][embedded-link]' relation types conform to [Section 3.3 of RFC 8288](https://www.rfc-editor.org/rfc/rfc8288#section-3.3), which obsoletes [the RFC mentioned in the spec](https://www.rfc-editor.org/rfc/rfc5988). Thus `rel` values are either a name from [the IANA link relations registry](https://www.iana.org/assignments/link-relations/link-relations.xhtml), a name in [your API documentation](#appendix-a-document-your-api), or an absolute URI. When using the latter, use a URL that points to documentation describing the link relation type.
+[Links][link]' and [embedded links][embedded-link]' relation types conform to [Section 3.3 of RFC 8288](https://www.rfc-editor.org/rfc/rfc8288#section-3.3), which obsoletes [the RFC mentioned in the spec](https://www.rfc-editor.org/rfc/rfc5988). Thus `rel` values are either a name from [the IANA link relations registry](https://www.iana.org/assignments/link-relations/link-relations.xhtml), a name in [your API documentation](#appendix-a-api-documentation), or an absolute URI. When using the latter, use a URL that points to documentation describing the link relation type.
 
 ```json
 {
@@ -129,7 +129,7 @@ Include a `self` [link][link] for every entity. An entity represents a resource,
 
 ## Link to API Documentation
 
-Include a `profile` link [[RFC6906](https://www.rfc-editor.org/rfc/rfc6906.html)] for every entity. The [link][link] points to relevant [documentation describing the semantics of the resource](#appendix-a-document-your-api).
+Include a `profile` link [[RFC6906](https://www.rfc-editor.org/rfc/rfc6906.html)] for every entity. The [link][link] points to relevant [documentation describing the semantics of the resource](#appendix-a-api-documentation).
 
 ```json
 {
