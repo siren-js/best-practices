@@ -209,6 +209,6 @@ At minimum, Siren API documentation describes the following:
 - `name`s of `actions` and `fields`
 - Custom `rel` values
 
-Use of [IANA link relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml) do not require documentation, but it is courteous to do so for clients new to [web linking](https://datatracker.ietf.org/doc/html/rfc8288).
+Documenting [IANA link relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml) is optional, but it may be worthwhile to mention which ones are used, especially for users new to [web linking](https://datatracker.ietf.org/doc/html/rfc8288).
 
 The exact format of Siren API documentation is beyond the scope of this document. Consider using a format designed for documenting APIs like [ALPS](http://alps.io/) or [XMDP](https://gmpg.org/xmdp/).
